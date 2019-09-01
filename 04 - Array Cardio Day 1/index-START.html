@@ -76,6 +76,23 @@
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
 
+    const totalNumObjectsArray = data.reduce((totalNumObjectsArray, nextObject) => {
+
+      if(totalNumObjectsArray[nextObject] !== undefined){
+
+        totalNumObjectsArray[nextObject] += 1;
+
+      } else {
+
+        totalNumObjectsArray[nextObject] = 1;
+
+      }
+
+      return totalNumObjectsArray;
+
+    }, {});
+    console.table(totalNumObjectsArray);
+
   </script>
 </body>
 </html>

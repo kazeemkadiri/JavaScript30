@@ -1,5 +1,5 @@
 //Add event listener to all timer buttons
-(()=>{
+const TimerModule = (()=>{
 	
 	const timerCount = {
 		seconds: 0,
@@ -87,18 +87,46 @@ const startTimer = () => {
 			
 		},1000);
 		
-		console.log(timerInterval);
+}
 
-	}
+const AddcustomTimeInputListener = () => {
+
+  document.querySelector('input[name="minutes"]').addEventListener('keydown', e => {
 	
+    if( e.key.toUpperCase() === "ENTER" ){
+
+	  timerCount.time = e.target.value;
+
+	  startTimer();
+	}
+
+  });
+
+}
+
+const preventSubmit = () => {
+
+  document.querySelector('#custom').addEventListener('submit', e => {
+	
+	e.preventDefault();
+
+  });
+
+}
+
 function init(){		
 	addTimerButtonListeners();
+	AddcustomTimeInputListener();
 }
-	
-	init();
-	
-})()
-//write function to run and display timer in DOM
-//COMMIT
+
+return {
+	init,
+	preventSubmit
+};
+
+})();
+
+TimerModule.init();
+TimerModule.preventSubmit();
 //Add listener for custom time input
 //Link to function to display timer

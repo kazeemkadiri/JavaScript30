@@ -28,7 +28,7 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  let items = [];
   
   //on form submit push new item into items
   addItems.addEventListener("submit", function(e){
@@ -39,21 +39,48 @@
    commitItemsToLocalStorage();
    
    clearFormInputField(this.firstElementChild);
-   //updateDOMItemList();
+   
+   updateDOMItemList();
+   
   });
   
   //append the new item to list
   const addNewItem = (item) => {
-  	items.push(item);
+    items.push(item);
   }
   
   const commitItemsToLocalStorage = () => {
-   localStorage.setItem('items', items);
-     }
+   localStorage.setItem('items', JSON.stringify(items));
+  }
 
   const clearFormInputField = (inputField) => {
     inputField.value = '';
   }
+  
+  const updateDOMItemList = () => {
+  	
+    items = JSON.parse(localStorage.getItem('items'));
+   
+    if (items === null){
+       items = [];
+       return;
+    }
+  	  
+   const domList = document.querySelector('.plates');
+   
+   domList.innerHTML = "";
+   
+   if(items.length === 0) return;
+   
+     items.forEach(item => {
+      
+       let listItem = document.createElement('li');
+       listItem.textContent = item;
+       domList.append(listItem);
+     })
+    }
+    
+    window.onload = updateDOMItemList();
 </script>
 
 

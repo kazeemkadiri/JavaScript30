@@ -36,6 +36,9 @@
     
    addNewItem(this.firstElementChild.value);
    
+   commitItemsToLocalStorage();
+   
+   //clearFormInputField();
    //updateDOMItemList();
   });
   
@@ -43,6 +46,10 @@
   const addNewItem = (item) => {
   	items.push(item);
   }
+  
+  const commitItemsToLocalStorage = () => {
+   localStorage.setItem('items', items);
+     }
 
 </script>
 

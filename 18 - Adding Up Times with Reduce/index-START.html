@@ -182,6 +182,50 @@
     </li>
   </ul>
 <script>
+
+//select all list elements
+// Get the time specified on each of them
+// Sum up using reduce and log
+
+const runApp = () => {
+  const videoLists = document.querySelectorAll('.videos li');
+  
+const timesSum =  Array.from(videoLists).reduce( (prevValue, vidListItem, index) => {
+     let time = vidListItem.dataset.time;
+     
+     let splittedTime = time.split(':');
+     
+     let totalTime =  prevValue + (parseInt(splittedTime[0]) * 60)  + parseInt(splittedTime[1]);
+
+     if(index === Array.from(videoLists).length - 1){
+     	
+     	const seconds = totalTime % 60;
+     	
+     	let minutes =  ((totalTime - seconds) / 60);
+     	
+     	let hours = 0;
+     	
+     	if(minutes > 60){
+     		
+     	  hours = Math.floor(minutes / 60);
+     	  
+     	  minutes = minutes % 60;
+     	  
+     	}
+     	
+     	return `${hours } : ${minutes} : ${seconds}`;
+     	
+     }
+     
+     return totalTime;
+
+  }, 0);
+  
+  console.log(timesSum);
+}
+
+window.onload = runApp();
 </script>
 </body>
 </html>
+    

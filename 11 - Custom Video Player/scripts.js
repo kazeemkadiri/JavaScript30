@@ -18,9 +18,14 @@ const progressBar = useDOMElement('.progress__filled');
 const toggleVideoPlay = () => {
   if(videoElement.paused){
     videoElement.play();
+    togglePlayButton.textContent = "| |";
+    
     return;
   }
+  
   videoElement.pause();
+  togglePlayButton.textContent = "►";
+  
 }
 
 const skip = (e) => {
@@ -40,9 +45,9 @@ const handleProgress = (e) => {
 	
 }
 
-const scrub = (e) => {
-	
-	videoElement.currentTime = (e.offsetX / progressBar.offsetWidth) * videoElement.duration;
+const scrub = (e, ev) => {
+	console.log(ev);
+	videoElement.currentTime = (e.offsetX / progress.offsetWidth) * videoElement.duration;
 	
 }
 
@@ -58,10 +63,16 @@ const initListeners = () => {
  	sliderElement.addEventListener('change', handleRangeUpdate);
  	
  });
- 
  videoElement.addEventListener('timeupdate', handleProgress);
 
-progressBar.addEventListener('click', scrub);
+progress.addEventListener('click', scrub);
+
+let mousedown = false;
+progress.addEventListener('mousemove', (e) => mousedown && scrub(e, 'mouse'));
+
+progress.addEventListener('mousedown', () => mousedown = true );
+
+progress.addEventListener('mouseup', () => mousedown = false );
 
   }
 

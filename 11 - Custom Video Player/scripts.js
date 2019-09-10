@@ -11,6 +11,10 @@ const skipButtons = useDOMElement('.player__button', true); //true indicates mul
 
 const sliderElements = useDOMElement('.player__slider', true);
 
+const progress = useDOMElement('.progress');
+
+const progressBar = useDOMElement('.progress__filled');
+
 const toggleVideoPlay = () => {
   if(videoElement.paused){
     videoElement.play();
@@ -31,6 +35,17 @@ const handleRangeUpdate = (e) => {
 
 }
 
+const handleProgress = (e) => {
+		progressBar.style.flexBasis = ((videoElement.currentTime / videoElement.duration) * 100) + "%";
+	
+}
+
+const scrub = (e) => {
+	
+	videoElement.currentTime = (e.offsetX / progressBar.offsetWidth) * videoElement.duration;
+	
+}
+
 const initListeners = () => {
   togglePlayButton.addEventListener('click', toggleVideoPlay);
   
@@ -44,6 +59,10 @@ const initListeners = () => {
  	
  });
  
+ videoElement.addEventListener('timeupdate', handleProgress);
+
+progressBar.addEventListener('click', scrub);
+
   }
 
 

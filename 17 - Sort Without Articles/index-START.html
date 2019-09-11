@@ -48,8 +48,25 @@
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+//write function to remove article from word
+const stripArticle = (phrase) => {
+  return phrase.replace(/^(A |The |An)+/i, "").trim();
+}
+
+//sort bands function
+const sortBands = (oneBand, anotherBand) => {
+  return stripArticle(oneBand) > stripArticle(anotherBand) ? 1 : -1;
+}
+
+const sortedBands = bands.sort(sortBands);
+console.log(bands);
+console.log(sortedBands);
+
+document.querySelector(" #bands").innerHTML
+   = sortedBands.map( band =>  `<li>${band}</li>` ).join("");
 
 </script>
 
 </body>
 </html>
+    

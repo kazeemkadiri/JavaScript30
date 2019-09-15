@@ -37,34 +37,89 @@
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
   const gameParams = {
-    randomNumber: 1
+    randomNumber: [],
+    moleDisplayState: false,
+    score: 0
   }
 
 const startGame = () => {
-  setInterval(() => {
-  
-    displayMole(false);
-  
-    gameParams.randomNumber = generateRandomNumber();
  
-    displayMole(true);
+  generateRandomNumber();
+  
+  setTimeout(()=>{
+  	
+    displayMole()
     
-  }, 1500);
+  }, 500);
+ 
 }
 
-const displayMole = (displayState) => {
-	
- const moleContainer = document.querySelector(`.hole${gameParams.randomNumber} .mole`);
+const displayMole = () => {
   
-  moleContainer.innerHTML = displayState === true ? "<img src='mole.svg' />" : "";
-
+  //let moleContainer = document.querySelector(`.hole${gameParams.randomNumber.shift()}`);
+  let moleAppearHole = gameParams.randomNumber.shift();
+  
+  let moleContainer = holes[moleAppearHole - 1];
+ 
+  moleContainer.classList.add('up');
+ 
+  //gameParams.moleDisplayState = ! gameParams.moleDisplayState;
+  
+  gameParams.nextMoleDisplayTimeout = setTimeout(() => {
+  	
+    hideCurrentMole(moleContainer);
+ 
+    displayMole();
+    
+  },  1000);
+  
 }
 
 const generateRandomNumber = () => {
+ 
   const randNum = Math.abs(Math.ceil(Math.random() * 10) - 4);
-  return randNum > 0 ? randNum : randNum + 1;
+
+  gameParams.randomNumber.push(randNum === 0 ? randNum + 1 : randNum);
+
+  setTimeout(() => {
+    	
+    generateRandomNumber();
+      
+  }, 400);
+  
 }
+
+const hideCurrentMole = (hole) => {
+	
+  hole.classList.remove("up");
+  
+}
+
+holes.forEach(hole => {
+	
+  hole.addEventListener("click", () => {
+    
+    let moleHit = hole.classList.contains("up");
+    
+    gameParams.score += moleHit ? 1 : 0;
+    
+    scoreBoard.textContent = gameParams.score;
+    
+    if(moleHit){
+    	
+      clearTimeout(gameParams.nextMoleDisplayTimeout);
+      
+      hideCurrentMole(hole);
+      
+      displayMole();
+      
+    }
+  });	
+  
+});
+
 </script>
 </body>
 </html>
+    
     
